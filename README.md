@@ -3,5 +3,5 @@
 
 ## Dependencies
 JRE 7/8
-Tested on MBP 64-bit + Ubuntu 64-bit
+Tested on MBP 64-bit + Debian 8 64-bit
 
