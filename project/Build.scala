@@ -25,6 +25,7 @@ object Build extends Build {
         "com.google.guava" % "guava" % "18.0",
         "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0",
         "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
+        "org.scalatest" %%  "scalatest" % "2.2.4" % "test",
         "org.slf4j" % "slf4j-simple" % "1.7.12"
       )
   )

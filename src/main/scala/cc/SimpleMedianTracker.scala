@@ -1,0 +1,74 @@
+package cc
+
+import java.io.{FileWriter, FileReader, BufferedReader, File}
+import java.util.regex.Pattern
+
+import com.typesafe.scalalogging.Logger
+import org.slf4j.LoggerFactory
+
+import scala.collection.JavaConversions._
+
+import com.google.common.collect.HashMultiset
+
+/**
+ * Used only for testing purposes to compare with 'MedianTracker'
+ */
+class SimpleMedianTracker(outputFile: File) extends Aggregator {
+
+  type BucketIndex = Int
+  private val delimiter: Pattern = Pattern.compile("\\s+") // compile pattern for reuse
+  private val countMap: HashMultiset[String] = HashMultiset.create()
+
+  private val MAX_BUCKETS: Int = 140
+  private val buckets: Array[Long] = new Array[Long](MAX_BUCKETS)
+  private var numEntries: Long = 0L
+  private var minBucket: BucketIndex = MAX_BUCKETS
+
+  private val log = Logger(LoggerFactory.getLogger("MedianTracker"))
+
+  outputFile.delete()
+  val fw = new FileWriter(outputFile, true)
+
+  override def processLine(line: String): Unit = {
+    val bucket = numUniqueWords(line)
+    if (bucket < minBucket) minBucket = bucket
+    try {
+      buckets(bucket) += 1
+    } catch {
+      case e: ArrayIndexOutOfBoundsException =>
+        throw new RuntimeException(s"Attempted increment a count not within [0, $MAX_BUCKETS)")
+    }
+    numEntries += 1
+    fw.write(f"${calculateMedian(buckets.map(_.toInt))}%.1f\n")
+  }
+
+  override def cleanUp(): Unit = {
+    fw.close()
+  }
+
+  // naive approach has memory-issues if bucketSize is too large
+  def calculateMedian(buckets: Array[Int]): Double = {
+    def naiveMedian(seq: Seq[Int]): Double = {
+      val (l, u) = seq.sortWith(_<_).splitAt(seq.size / 2)
+      if (seq.size % 2 == 0)
+        (l.last + u.head) / 2.0
+      else u.head
+    }
+
+    val flattenedBuckets: Array[Int] = buckets.zipWithIndex.flatMap { case ((bucketSize, bucketIndex)) =>
+      List.fill(bucketSize)(bucketIndex)
+    }
+    naiveMedian(flattenedBuckets)
+  }
+
+  private def numUniqueWords(line: String): Int = {
+    val words = delimiter.split(line)
+    words.foreach { word =>
+      countMap.add(word)
+    }
+    val numUniques = countMap.elementSet().size()
+    countMap.clear()
+    numUniques
+  }
+
+}
