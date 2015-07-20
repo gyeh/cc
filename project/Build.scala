@@ -3,7 +3,7 @@ import Keys._
 import sbtassembly._
 import AssemblyKeys._
 
-object BuildSettings extends Build {
+object Build extends Build {
   lazy val root = Project("cc", file(".")) settings(coreSettings : _*)
 
   lazy val commonSettings: Seq[Setting[_]] = Seq(
@@ -21,6 +21,7 @@ object BuildSettings extends Build {
     libraryDependencies :=
       Seq(
         "com.github.scopt" %% "scopt" % "3.3.0",
+        "org.mapdb" % "mapdb" % "1.0.8",
         "com.google.guava" % "guava" % "18.0",
         "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0",
         "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",

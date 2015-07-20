@@ -2,5 +2,3 @@
 
 java -jar target/scala-2.11/cc.jar
 
-
-

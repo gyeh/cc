@@ -30,7 +30,7 @@ object Application extends App {
     case Some(config) =>
       val counter = new WordCounter(config.wcOutputFile)
       val tracker = new MedianTracker(config.medianOutputFile)
-      execute(config, List(counter, tracker))
+      execute(config.inputFile, List(counter, tracker))
     case None =>
       println("Unable to parse configuration.")
       System.exit(1)
@@ -39,8 +39,8 @@ object Application extends App {
   /**
    * Process input file against configured Aggregators
    */
-  def execute(config: Config, aggregators: List[Aggregator]): Unit = {
-    val br = new BufferedReader(new FileReader(config.inputFile))
+  def execute(inputFile: File, aggregators: List[Aggregator]): Unit = {
+    val br = new BufferedReader(new FileReader(inputFile))
 
     // read line-by-line without reading entire file into memory
     var line: String = br.readLine()
