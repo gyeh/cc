@@ -18,7 +18,6 @@ object Build extends Build {
     parallelExecution in Test := false,
     mainClass in assembly := Some("cc.Application"),
     assemblyJarName in assembly := "cc.jar",
-    test in assembly := {},
     libraryDependencies :=
       Seq(
         "com.github.scopt" %% "scopt" % "3.3.0",

@@ -1,7 +1,6 @@
 package cc
 
-import java.io.{FileWriter, FileReader, BufferedReader, File}
-import java.util.regex.Pattern
+import java.io.{FileWriter, File}
 
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory

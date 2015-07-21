@@ -8,9 +8,9 @@ Tested on MBP 64-bit + Debian 8 64-bit
 * Uber jar contains all libraries and dependencies.
 
 ## Design
-Preliminary runs indicate that `WordCounter` and `MedianTracker` takes ~3 minutes to process
-20 millions tweets, which is about the number of tweets Twitter generates per hour (from 
-http://goo.gl/eWTrtz).
+Preliminary runs on a 4-core, 8GB Linux machine indicate that `WordCounter` and `MedianTracker` takes 
+~2 minutes to process 20 millions tweets, which is about the number of tweets Twitter generates per 
+hour (from http://goo.gl/eWTrtz).
 
 Some Scala-specific idioms were set aside (e.g. lambdas, for-comprehensions) to eek out minor
 performance gains on the hot-path.
@@ -29,8 +29,8 @@ A casual experiment with 4 million unique words from a corpus of 20 million gene
 resulted in a ~350MB map on a 64-bit JVM. This makes a bit more sense considering that a 17 character 
 Java String can be 72 bytes in memory (not accounting the hashmap and long counter overhead).
 
-Potential further optimizations include a more efficient string encoding, tries, alternative map
-data structures, off-heap solutions to mitigate GC issues.
+Potential further optimizations include a more efficient string encoding, tries, probabilistic
+sampling or alternative off-heap solutions.
 
 ### MedianTracker
 To be space-optimized and not track the unique counts for all tweets, `MedianTracker` uses a `long`

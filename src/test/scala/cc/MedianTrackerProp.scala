@@ -6,7 +6,7 @@ import org.scalacheck._
 import Prop._
 
 /**
- * Property-based test suite using ScalaCheck
+ * A property-based test suite using ScalaCheck
  */
 object MedianTrackerProp extends Properties("MedianTracker") {
 
