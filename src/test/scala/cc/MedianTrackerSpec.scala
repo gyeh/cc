@@ -52,6 +52,7 @@ class MedianTrackerSpec extends FlatSpec with Matchers with BeforeAndAfterEach w
     tracker.calculateMedian(Array(0, 1), 1, 1) shouldEqual simpleTracker.calculateMedian(Array(0, 1))
     tracker.calculateMedian(Array(1, 1), 2, 0) shouldEqual simpleTracker.calculateMedian(Array(1, 1))
     tracker.calculateMedian(Array(1, 1, 1), 3, 0) shouldEqual simpleTracker.calculateMedian(Array(1, 1, 1))
+    tracker.calculateMedian(Array(0, 1, 1, 1, 0, 1), 4, 1) shouldEqual simpleTracker.calculateMedian(Array(0, 1, 1, 1, 0, 1))
     tracker.calculateMedian(Array(1, 2, 1), 4, 0) shouldEqual simpleTracker.calculateMedian(Array(1, 2, 1))
     tracker.calculateMedian(Array(0, 1, 2, 1, 0, 5), 9, 1) shouldEqual simpleTracker.calculateMedian(Array(0, 1, 2, 1, 0, 5))
     tracker.calculateMedian(Array(0, 1, 2, 1, 1, 0, 5), 10, 1) shouldEqual simpleTracker.calculateMedian(Array(0, 1, 2, 1, 1, 0, 5))

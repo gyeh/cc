@@ -31,8 +31,12 @@ object TweetGenerator extends App {
       builder.append(word).append(suffix).append(' ')
       generateTweet(builder, newRemaining)
     } else {
-      builder.append("\n")
-      builder.mkString
+      if (builder.length != 0) {
+        builder.append("\n")
+        builder.mkString
+      } else {
+        generateTweet() // restart if empty
+      }
     }
   }
 

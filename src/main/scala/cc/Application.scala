@@ -50,7 +50,8 @@ object Application extends App {
     var line: String = br.readLine()
     var count = 1
     while (line != null) {
-      val words = delimiter.split(line)
+      val trimmedLine = line.trim
+      val words = delimiter.split(trimmedLine)
       aggregators.foreach(_.processLine(words))
       line = br.readLine()
       if (count % 100000 == 0) println(s"Processing $descriptor tweet #: $count")
