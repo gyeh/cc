@@ -4,6 +4,7 @@
 # cc specific
 tweet_input/*.txt
 tweet_output/*.txt
+data-gen/*
 
 # sbt specific
 dist/*
