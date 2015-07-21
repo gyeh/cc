@@ -15,7 +15,7 @@ Libraries are pre-packaged within an uber jar in the ./target directory.
 * scalatest - unit tests
 
 ## Design
-Preliminary runs on a 4-core, 8GB Linux machine indicate that `WordCounter` and `MedianTracker` takes 
+Preliminary runs, on a 4-core, 8GB Linux machine, indicate that `WordCounter` and `MedianTracker` takes 
 ~2 minutes to process 20 millions tweets, which is about the number of tweets Twitter generates per 
 hour (from http://goo.gl/eWTrtz).
 
@@ -27,7 +27,7 @@ JVM-tuning (e.g. heap size, GC algorithm, etc).
 
 ### WordCounter
 `WordCounter` uses an in-memory Guava Multi-Set map to handle the primary string frequency operations.
-The primary concern is memory usage: to store a high volume of potential unique words in
+The main concern is memory usage: to store a high volume of potential unique words in
 memory. (The number of unique words in the english language is about 1 million (http://goo.gl/f4wGg9).
 This is not taking to account of other languages or the various permutations due to uncleaned
 puncuations and grammar.)
@@ -47,5 +47,6 @@ into the bucket.
 
 To calculate the new median, 'buckets' is traversed linearly each time to reach the median.
 Because tweets are limited to 140 characters and we're assuming that only whitespaces can delimit
-words, the 'buckets' size is bounded to a small constant, resulting in a small traversal cost.
+words, the 'buckets' size can be bounded to a small constant (< 140), resulting in a small traversal 
+cost.
 

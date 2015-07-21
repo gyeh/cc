@@ -14,13 +14,13 @@ class MedianTracker(outputFile: File) extends Aggregator {
   type BucketIndex = Int
   private val countMap: HashMultiset[String] = HashMultiset.create()
 
-  private val MAX_BUCKETS: Int = 140
+  private val MAX_BUCKETS: Int = 140 // overkill
   private val buckets: Array[Long] = new Array[Long](MAX_BUCKETS)
   private var numEntries: Long = 0L
   private var minBucket: BucketIndex = MAX_BUCKETS
 
   outputFile.delete()
-  val fw = new FileWriter(outputFile, true)
+  private val fw = new FileWriter(outputFile, true)
 
 
   override def processLine(words: Array[String]): Unit = {
