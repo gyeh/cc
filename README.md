@@ -1,7 +1,7 @@
 ## To run:
 `./run.sh`
 
-Tested on MBP 64-bit + Debian 8 64-bit
+Tested on OSX 64-bit and Debian Linux 8 64-bit
 
 ## Dependencies
 * Java (JRE) 7 or 8
@@ -22,8 +22,8 @@ hour (from http://goo.gl/eWTrtz).
 Some Scala-specific idioms were set aside (e.g. lambdas, for-comprehensions) to eek out minor
 performance gains on the hot-path.
 
-Because specs of the running machine is unknown, there was no JVM-tuning involved (e.g. minimal
-heap size, GC algo, etc).
+Because the specs of the running machine are unknown, there were no optimizations derived from 
+JVM-tuning (e.g. heap size, GC algorithm, etc).
 
 ### WordCounter
 `WordCounter` uses an in-memory Guava Multi-Set map to handle the primary string frequency operations.
