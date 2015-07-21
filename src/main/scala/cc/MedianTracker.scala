@@ -11,19 +11,11 @@ import scala.collection.JavaConversions._
 import com.google.common.collect.HashMultiset
 
 /**
- * To be space-optimized and not track the unique counts for all tweets, MedianTracker uses an Long
- * array ('buckets') to track the unique words counts from each tweet. The array index represents
- * the number of unique words per tweet. The array value represents the number of tweets which falls
- * into the bucket.
- *
- * To calculate the new median, 'buckets' is traversed linearly each time to reach the median.
- * Because tweets are limited to 140 characters and we're assuming that only whitespaces can delimit
- * words, the 'buckets' size is bounded to a small constant -- resulting in a small traversal cost.
+ * Calculates a rolling median of unique words for tweets.
  */
 class MedianTracker(outputFile: File) extends Aggregator {
-  
+
   type BucketIndex = Int
-  private val delimiter: Pattern = Pattern.compile("\\s+") // compile pattern for reuse
   private val countMap: HashMultiset[String] = HashMultiset.create()
 
   private val MAX_BUCKETS: Int = 140
@@ -37,8 +29,8 @@ class MedianTracker(outputFile: File) extends Aggregator {
   val fw = new FileWriter(outputFile, true)
 
 
-  override def processLine(line: String): Unit = {
-    val bucket = numUniqueWords(line)
+  override def processLine(words: Array[String]): Unit = {
+    val bucket = numUniqueWords(words)
     if (bucket < minBucket) minBucket = bucket
     try {
       buckets(bucket) += 1
@@ -76,22 +68,26 @@ class MedianTracker(outputFile: File) extends Aggregator {
         bucketIndex
       } else {
         // if median is at the end of bucket, need to grab the next bucket for the right-side median
-        for (nextBucket <- bucketIndex + 1 until buckets.length) {
+        var nextBucket = bucketIndex + 1
+        while (nextBucket < buckets.length) {
           // ignore empty buckets
           if (buckets(nextBucket) > 0) {
             return (bucketIndex + nextBucket) / 2.0
           }
+          nextBucket += 1
         }
         bucketIndex
       }
     }
   }
 
-  private def numUniqueWords(line: String): Int = {
-    val words = delimiter.split(line)
-    words.foreach { word =>
-      countMap.add(word)
+  private def numUniqueWords(words: Array[String]): Int = {
+    var i = 0
+    while (i < words.length) {
+      countMap.add(words(i))
+      i += 1
     }
+
     val numUniques = countMap.elementSet().size()
     countMap.clear()
     numUniques
@@ -113,7 +109,8 @@ class MedianTracker(outputFile: File) extends Aggregator {
 
     var currEntries = 0L
     // iterate through all the buckets starting with smallest non-empty bucket
-    for (currBucket <- minBucket until buckets.length) {
+    var currBucket = minBucket
+    while(currBucket < buckets.length) {
       // ignore empty buckets
       if (buckets(currBucket) > 0) {
         val bucketSize = buckets(currBucket)
@@ -125,6 +122,7 @@ class MedianTracker(outputFile: File) extends Aggregator {
           currEntries += bucketSize
         }
       }
+      currBucket += 1
     }
     // if no unique-counts are recorded in 'buckets'
     (0, false)

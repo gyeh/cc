@@ -10,7 +10,7 @@ class WordCounterSpec extends FlatSpec with Matchers with BeforeAndAfterEach wit
 
   private def runCounter(inputFile: File, outputFile: File): Unit = {
     val wc = new WordCounter(outputFile)
-    Application.execute(inputFile, List(wc))
+    Application.execute(inputFile, List(wc), "test")
   }
 
   private def verifyFilesEquivalent(file1: File, file2: File): Unit = {

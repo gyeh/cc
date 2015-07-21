@@ -29,8 +29,8 @@ class SimpleMedianTracker(outputFile: File) extends Aggregator {
   outputFile.delete()
   val fw = new FileWriter(outputFile, true)
 
-  override def processLine(line: String): Unit = {
-    val bucket = numUniqueWords(line)
+  override def processLine(words: Array[String]): Unit = {
+    val bucket = numUniqueWords(words)
     if (bucket < minBucket) minBucket = bucket
     try {
       buckets(bucket) += 1
@@ -61,8 +61,7 @@ class SimpleMedianTracker(outputFile: File) extends Aggregator {
     naiveMedian(flattenedBuckets)
   }
 
-  private def numUniqueWords(line: String): Int = {
-    val words = delimiter.split(line)
+  private def numUniqueWords(words: Array[String]): Int = {
     words.foreach { word =>
       countMap.add(word)
     }

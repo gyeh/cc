@@ -1,6 +1,6 @@
 package cc
 
 trait Aggregator {
-  def processLine(line: String): Unit
+  def processLine(words: Array[String]): Unit
   def cleanUp(): Unit
 }

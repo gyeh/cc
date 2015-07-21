@@ -10,7 +10,7 @@ class MedianTrackerSpec extends FlatSpec with Matchers with BeforeAndAfterEach w
 
   private def runCounter(inputFile: File, outputFile: File): Unit = {
     val wc = new MedianTracker(outputFile)
-    Application.execute(inputFile, List(wc))
+    Application.execute(inputFile, List(wc), "test")
   }
 
   "MedianTracker" should "calculate a rolling median from sample input" in {

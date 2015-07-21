@@ -1,49 +1,37 @@
 package cc
 
 import java.io.{File, FileWriter}
-import java.util.regex.Pattern
-import org.mapdb._
 
 import scala.collection.JavaConversions._
 
+import com.google.common.collect.HashMultiset
+
 /**
- * Using a disk backed map for word-count frequency, in order to track potentially billions of
- * unique "words" without overwhelming the heap (also cannot be dependent on in-memory storage b/c
- * unable to tune the jvm due to unknown system specs of host machine).
- *
- * Alternative solutions include: using alternative off-heap data stores (e.g. mmap, berkeleydb),
- * using a trie, use a more efficient String encoding scheme.
+ * Records the number of unique words from Tweet stream.
  */
 class WordCounter(outputFile: File) extends Aggregator {
 
-  private val countMap = DBMaker.newTempHashMap[String, Long]()
-  private val delimiter = Pattern.compile("\\s+") // compile pattern for reuse
+  // ensure initial map size accomodates potential number of unique words
+  private val countMap: HashMultiset[String] = HashMultiset.create(1000000)
 
   outputFile.delete()
 
   /**
    * Count words per line
    */
-  override def processLine(line: String): Unit = {
-    val words = delimiter.split(line)
+  override def processLine(words: Array[String]): Unit = {
     words.foreach { word =>
-      val count = countMap.get(word)
-      if (count == null) {
-        countMap.put(word, 1)
-      } else {
-        countMap.put(word, count + 1)
-      }
+      countMap.add(word)
     }
   }
 
   override def cleanUp(): Unit = {
-    // sort lexicographically. not optimized for lots of words
-    val sortedList = countMap.entrySet().toList.sortBy(_.getKey)
+    // sort lexicographically, not optimized
+    val sortedList = countMap.entrySet().toList.sortBy(_.getElement)
 
     // output results
     val fw = new FileWriter(outputFile, true)
-    sortedList.foreach(entry => fw.write(s"${entry.getKey} ${entry.getValue}\n"))
+    sortedList.foreach(entry => fw.write(s"${entry.getElement} ${entry.getCount}\n"))
     fw.close()
-    countMap.close()
   }
 }
