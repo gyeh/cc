@@ -21,7 +21,7 @@ class WordCounter(outputFile: File) extends Aggregator {
    */
   override def processLine(words: Array[String]): Unit = {
     words.foreach { word =>
-      countMap.add(word)
+      if (!word.isEmpty) countMap.add(word)
     }
   }
 

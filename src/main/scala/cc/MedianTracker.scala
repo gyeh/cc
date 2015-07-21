@@ -24,6 +24,8 @@ class MedianTracker(outputFile: File) extends Aggregator {
 
 
   override def processLine(words: Array[String]): Unit = {
+    if (words.forall(_.isEmpty)) return
+
     val bucket = numUniqueWords(words)
     if (bucket < minBucket) minBucket = bucket
     try {

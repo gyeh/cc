@@ -35,6 +35,15 @@ class WordCounterSpec extends FlatSpec with Matchers with BeforeAndAfterEach wit
     verifyFilesEquivalent(outputFile, validatedOutputFile)
   }
 
+  "WordCounter" should "count unique words from input text with empty tweets" in {
+    val inputFile = new File("src/test/resources/input_3.txt")
+    val outputFile = new File("target/output_3.txt")
+    val validatedOutputFile = new File("src/test/resources/output_3.txt")
+
+    runCounter(inputFile, outputFile)
+    verifyFilesEquivalent(outputFile, validatedOutputFile)
+  }
+
   "WordCounter" should "generate an empty file from empty input text" in {
     val inputFile = new File("src/test/resources/input_2.txt")
     val outputFile = new File("target/output_2.txt")

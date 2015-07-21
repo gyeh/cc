@@ -16,10 +16,22 @@ class MedianTrackerSpec extends FlatSpec with Matchers with BeforeAndAfterEach w
   "MedianTracker" should "calculate a rolling median from sample input" in {
     val inputFile = new File("src/test/resources/input_1.txt")
     val outputFile = new File("target/output_3.txt")
-    val validatedOutputFile = new File("src/test/resources/output_1.txt")
 
     runCounter(inputFile, outputFile)
     Source.fromFile(outputFile).getLines().toList.zip(List("11.0", "12.5", "14.0")).foreach {
+      case (line, num) => line.trim shouldEqual num
+    }
+  }
+
+  "MedianTracker" should "calculate a rolling median from sample input with empty tweets" in {
+    val inputFile = new File("src/test/resources/input_3.txt")
+    val outputFile = new File("target/output_6.txt")
+
+    runCounter(inputFile, outputFile)
+    val lines = Source.fromFile(outputFile).getLines().toList
+    val desiredOutput = List("1.0", "1.0", "1.0", "1.0", "1.0")
+    lines.length shouldEqual desiredOutput.length
+    lines.zip(desiredOutput).foreach {
       case (line, num) => line.trim shouldEqual num
     }
   }
