@@ -4,8 +4,7 @@
 Tested on MBP 64-bit + Debian 8 64-bit
 
 ## Dependencies
-* Java JVM 7 or 8 to run the uber jar
-* Uber jar contains all libraries and dependencies.
+* Java JVM 7 or 8
 
 ## Design
 Preliminary runs on a 4-core, 8GB Linux machine indicate that `WordCounter` and `MedianTracker` takes 
