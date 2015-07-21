@@ -16,7 +16,6 @@ import com.google.common.collect.HashMultiset
 class SimpleMedianTracker(outputFile: File) extends Aggregator {
 
   type BucketIndex = Int
-  private val delimiter: Pattern = Pattern.compile("\\s+") // compile pattern for reuse
   private val countMap: HashMultiset[String] = HashMultiset.create()
 
   private val MAX_BUCKETS: Int = 140
