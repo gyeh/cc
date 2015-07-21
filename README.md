@@ -6,6 +6,14 @@ Tested on MBP 64-bit + Debian 8 64-bit
 ## Dependencies
 * Java (JRE) 7 or 8
 
+## Libraries
+Libraries are pre-packaged within an uber jar in the ./target directory.
+
+* scopt - command line arg parser
+* google guava
+* scalacheck - property-test library
+* scalatest - unit tests
+
 ## Design
 Preliminary runs on a 4-core, 8GB Linux machine indicate that `WordCounter` and `MedianTracker` takes 
 ~2 minutes to process 20 millions tweets, which is about the number of tweets Twitter generates per 

@@ -5,6 +5,9 @@ import java.io.{File, BufferedWriter, FileWriter}
 import scala.annotation.tailrec
 import scala.io.Source
 
+/**
+ * Stand-alone tweet generator for testing
+ */
 object TweetGenerator extends App {
   val NUM_TWEETS = 20000000
   val MULTIPLIER = 16
