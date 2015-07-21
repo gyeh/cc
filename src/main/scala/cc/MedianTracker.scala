@@ -2,9 +2,6 @@ package cc
 
 import java.io.{FileWriter, File}
 
-import com.typesafe.scalalogging.Logger
-import org.slf4j.LoggerFactory
-
 import scala.collection.JavaConversions._
 
 import com.google.common.collect.HashMultiset
@@ -21,8 +18,6 @@ class MedianTracker(outputFile: File) extends Aggregator {
   private val buckets: Array[Long] = new Array[Long](MAX_BUCKETS)
   private var numEntries: Long = 0L
   private var minBucket: BucketIndex = MAX_BUCKETS
-
-  private val log = Logger(LoggerFactory.getLogger("MedianTracker"))
 
   outputFile.delete()
   val fw = new FileWriter(outputFile, true)
