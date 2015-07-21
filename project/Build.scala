@@ -18,10 +18,10 @@ object Build extends Build {
     parallelExecution in Test := false,
     mainClass in assembly := Some("cc.Application"),
     assemblyJarName in assembly := "cc.jar",
+    test in assembly := {},
     libraryDependencies :=
       Seq(
         "com.github.scopt" %% "scopt" % "3.3.0",
-        "org.mapdb" % "mapdb" % "1.0.8",
         "com.google.guava" % "guava" % "18.0",
         "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0",
         "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
