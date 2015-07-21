@@ -19,7 +19,7 @@ Preliminary runs on a 4-core, 8GB Linux machine indicate that `WordCounter` and 
 ~2 minutes to process 20 millions tweets, which is about the number of tweets Twitter generates per 
 hour (from http://goo.gl/eWTrtz).
 
-Some Scala-specific idioms were set aside (e.g. lambdas, for-comprehensions) to eek out minor
+Some Scala-specific idioms were set aside (ie. being more imperative) to eek out minor
 performance gains on the hot-path.
 
 Because the specs of the running machine are unknown, there were no optimizations derived from 
